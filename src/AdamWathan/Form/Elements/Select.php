@@ -5,11 +5,13 @@ class Select extends FormControl
 
     private $options;
     private $selected;
+    private $iskey;
 
-    public function __construct($name, $options = array())
+    public function __construct($name, $options = array(), $iskey)
     {
         $this->setName($name);
         $this->setOptions($options);
+        $this->setIsKey($iskey);
     }
 
     public function select($option)
@@ -29,6 +31,11 @@ class Select extends FormControl
         return $this;
     }
 
+    protected function setIsKey($iskey)
+    {
+        $this->iskey = $iskey;
+    }
+
     public function render()
     {
         $result = '<select';
@@ -45,6 +52,8 @@ class Select extends FormControl
         $result = '';
 
         foreach ($this->options as $value => $label) {
+            if($this->iskey)
+                $value = $label;
             if (is_array($label)) {
                 $result .= $this->renderOptGroup($value, $label);
                 continue;

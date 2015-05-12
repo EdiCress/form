@@ -12,6 +12,7 @@ use AdamWathan\Form\Elements\FormOpen;
 use AdamWathan\Form\Elements\Hidden;
 use AdamWathan\Form\Elements\File;
 use AdamWathan\Form\Elements\Date;
+use AdamWathan\Form\Elements\Datetime;
 use AdamWathan\Form\Elements\Email;
 use AdamWathan\Form\OldInput\OldInputInterface;
 use AdamWathan\Form\ErrorStore\ErrorStoreInterface;
@@ -80,6 +81,17 @@ class FormBuilder
         }
 
         return $date;
+    }
+
+    public function datetime($name)
+    {
+        $datetime = new Datetime($name);
+
+        if (!is_null($value = $this->getValueFor($name))) {
+            $datetime->value($value);
+        }
+
+        return $datetime;
     }
 
     public function email($name)
@@ -161,9 +173,9 @@ class FormBuilder
         return $submit;
     }
 
-    public function select($name, $options = array())
+    public function select($name, $options = array(), $iskey = false)
     {
-        $select = new Select($name, $options);
+        $select = new Select($name, $options, $iskey);
 
         $selected = $this->getValueFor($name);
         $select->select($selected);
